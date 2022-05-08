@@ -1,2 +1,36 @@
 import camion.*
 import cosas.*
+
+test "si agregamos 36 ladrillos, el peso del paquete deberia ser de 72 kgs"{
+	
+	paqueteLadrillos.agregarLadrillos(36)
+	assert.equals(72,paqueteLadrillos.peso())
+	
+}
+
+   
+test "bateria antiaerea sin misiles deberia tener un peso de 200 kgs y su nivel de peligrosidad debe ser 0"{
+	bateriaAntiaerea.noEstaCargada()
+	assert.equals(200,bateriaAntiaerea.peso())
+	assert.equals(0,bateriaAntiaerea.nivelPeligrosidad())
+}
+
+test "al agregar residuos radioactivos con un peso de 30 kgs al embalaje de seguridad, el peso deberia ser de 30kgs y su nivel de peligrosdiad de 15 "{
+	residuosRadioactivos.pesoAniadido(30)
+	embalajeSeguridad.cosaAEmbalar(residuosRadioactivos)
+	assert.equals(30,embalajeSeguridad.peso())
+	assert.equals(100,embalajeSeguridad.nivelPeligrosidad())
+	
+}
+test "contenedor cargado con un bumblebee transformado en auto,embalaje de segurida con bateria Antiaerea dentro cargada y arena granel de 100 kgs
+      deberia tener un nivel de peligrosidad de 50, y un peso de 1300 kgs "{
+	
+	arenaGranel.aniadirPeso(100)
+	embalajeSeguridad.cosaAEmbalar(bateriaAntiaerea)
+	contenedor.cargar(embalajeSeguridad)
+	contenedor.cargar(bumblebee)
+	contenedor.cargar(arenaGranel)
+	assert.equals(1300,contenedor.peso())
+	assert.equals(50,contenedor.nivelPeligrosidad())
+	
+}

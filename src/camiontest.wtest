@@ -1,3 +1,85 @@
 import camion.*
 import cosas.*
 
+describe "Test de Camion "{
+	
+	
+method camionCargado(){
+	
+  camion.cargar(bumblebee)
+  camion.cargar(arenaGranel)
+  camion.cargar(bateriaAntiaerea)
+  camion.cargar(embalajeSeguridad)
+}
+
+method cosasConValor(){
+	
+	bumblebee.transformadoEnRobot()
+ 	arenaGranel.aniadirPeso(150)
+ 	paqueteLadrillos.agregarLadrillos(80)
+ 	embalajeSeguridad.cosaAEmbalar(paqueteLadrillos)
+} 
+test "  El peso de todos los elementos dentro del camion es par "{
+	self.cosasConValor()
+	self.camionCargado()
+	assert.that(camion.todoPesoPar())
+}
+
+test " el peso total del camion con los elementos dentro debe ser de 2410 kgs"{
+	self.cosasConValor()
+	self.camionCargado()
+	assert.equals(2410,camion.pesoTotal())
+}
+
+test "Con todas las cosas dentro el peso del camion no debe estar excedido"{
+	self.cosasConValor()
+	self.camionCargado()
+	assert.notThat(camion.excedidoDePeso())
+	
+}
+
+test "los objetos cargados en el camion que superan el nivel de peligrosidad 10, deben ser bumblebee y bateriaAntiaerea"{
+	self.cosasConValor()
+	self.camionCargado()
+	assert.equals([bumblebee,bateriaAntiaerea],camion.objetosQueSuperanPeligrosidad(10))
+	
+}
+test "cosas cargadas que tengas más nivel de peligrosidad que bumblebee,deberia ser bateriaAntiarea"{
+	self.cosasConValor()
+	self.camionCargado()
+	assert.equals([bateriaAntiaerea],camion.objetosMasPeligrososQue(bumblebee)) 
+}
+test "El camion puede circular si no esta excedido de peso, y nignun objeto dentro supera el nivel maximo de peligrosidad maxima,
+      el camion no es excedido de peso y nivel maximo de peligrosdidad de un onjeto dentro es de 100, la bateria Antiaerea cargada"{
+	self.cosasConValor()
+	self.camionCargado()
+	assert.notThat(camion.puedeCircularEnRuta(55))
+}
+
+test"indica si el camion tiene algun objeto que pesa dentro del rango pedido de peso. "{
+	
+	self.cosasConValor()
+	self.camionCargado()
+	assert.that(camion.tieneAlgoQuePesaEntre(200,800))
+}
+
+test"metodo no pedido para la entrega. nos muestra los objetos que se encuentran en el rango de peso pedido"{
+	self.cosasConValor()
+	self.camionCargado()
+	assert.equals([bumblebee,bateriaAntiaerea], camion.losQueTienenPesoEntre(200,800))
+	
+}
+
+test"retornar el objeto más pesado que contiene dentro el camion"{
+    self.cosasConValor()
+	self.camionCargado()
+	assert.equals(bumblebee, camion.cosaMasPesada())
+}
+
+test"El peso de cada Objeto dentro del camion"{
+    self.cosasConValor()
+	self.camionCargado()
+	assert.equals([800,150,300,160],camion.pesos())
+}
+	
+}

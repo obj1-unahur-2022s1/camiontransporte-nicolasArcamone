@@ -1,0 +1,69 @@
+import camion2.*
+import cosas2.*
+
+describe "Test de Camion2 "{
+	
+	
+method camionCargado(){
+	
+  camion.cargar(bumblebee)
+  camion.cargar(arenaGranel)
+  camion.cargar(bateriaAntiaerea)
+  camion.cargar(embalajeSeguridad)
+}
+
+method cosasConValor(){
+	
+	bumblebee.transformadoEnRobot()
+ 	paqueteLadrillos.agregarLadrillos(80)
+ 	embalajeSeguridad.cosaAEmbalar(paqueteLadrillos)
+} 
+
+method contenedorCargado(){
+	
+	contenedor.cargar(arenaGranel)
+	contenedor.cargar(bateriaAntiaerea)
+	contenedor.cargar(bumblebee)
+}
+
+test "el Total de Bultos que debera tener el camion debe ser de 7"{
+	self.camionCargado()
+	self.cosasConValor()
+	assert.equals(6, camion.totalBultosCargados())
+	
+}
+
+test"al cargar un paquete de ladrillos de 305 unidades, el bulto de ladrillos deberia ser 3 por ende, el total de bultos debe ser de 9"{
+    self.camionCargado()
+	self.cosasConValor()
+	paqueteLadrillos.agregarLadrillos(305)
+    camion.cargar(paqueteLadrillos)
+    assert.equals(9, camion.totalBultosCargados())
+}
+test"al cargar un paquete de ladrillos de 305 unindades el total de ladrillos con la consecuencia de carga quedara en  317 unidades"{
+    self.camionCargado()
+	self.cosasConValor()
+	paqueteLadrillos.agregarLadrillos(305)
+    camion.cargar(paqueteLadrillos)
+    assert.equals(317, paqueteLadrillos.cantidadLadrillos())
+}
+
+test"al cargar el camion con un contenedor cargado de arena y una bateriaAntiaerea que no esta cargada, pero se cargara con la consecuencia de carga que posee el contenedor,
+     el total de bultos debe ser de 11"{
+    self.contenedorCargado()
+    self.cosasConValor()
+    self.camionCargado()
+    camion.cargar(contenedor)
+    assert.equals(11, camion.totalBultosCargados())
+}
+
+test"con la  carga de arena al contenedor, y al camion, la consecuencia de carga en ambas dejaria el peso, de estar en 0 a estar en 40kgs"{
+    self.contenedorCargado()
+    self.cosasConValor()
+    self.camionCargado()
+    camion.cargar(contenedor)
+    assert.equals(40, arenaGranel.peso())
+	
+}
+
+}
